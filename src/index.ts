@@ -6,7 +6,7 @@
 abstract class Figure /* implements IFigure */ {
 	public abstract name: string;
 	public abstract color: string;
-	public abstract calculateArea(p1: number, p2?: number, p3?: number): number;
+	public abstract calculateArea(p1: number, p2?: number): number;
 }
 
 abstract class FigureWithPrint extends Figure {
@@ -64,6 +64,7 @@ const figures: Figure[] = [new Rectangle(), new Square(), new Triangle(), new Ci
 
 figures.forEach((figure: Figure) => {
 	console.log(`Figure: ${figure.name}, color: ${figure.color}, area: ${figure.calculateArea(2, 3)}`);
+	
 	if (figure instanceof FigureWithPrint) {
 		console.log(`Expression: ${figure.print()}`);
 	}
