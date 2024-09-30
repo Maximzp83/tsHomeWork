@@ -16,16 +16,14 @@ interface Interface4 {
 	[key: string]: string | number;	
 }
 
-
-
 // ---5---
 type RandomObject = {
 	[key: string]: string | number;
 }
-interface MyInterface {
+interface IParent {
 	[key: string]: string | number | RandomObject;
 }
-interface MyInterface {
+interface IChild extends IParent {
 	property1: string;
 	property2: number;
 	property3: RandomObject
