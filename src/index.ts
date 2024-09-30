@@ -20,10 +20,10 @@ interface Interface4 {
 type RandomObject = {
 	[key: string]: string | number;
 }
-interface IParent {
+interface MyInterface {
 	[key: string]: string | number | RandomObject;
 }
-interface IChild extends IParent {
+interface MyInterface {
 	property1: string;
 	property2: number;
 	property3: RandomObject
