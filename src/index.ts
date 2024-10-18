@@ -33,7 +33,7 @@ type DeepRequireReadonly<T> = {
 const data2: DeepRequireReadonly<IUser>  = {
 	name: 'John',
 	age: 30,
-	contacts: { // Error
+	contacts: { // Error if remove email
 		country: 'USA',
 		email: 'email.com'		
 	}
@@ -95,6 +95,4 @@ const data4: ObjectToPropertyDescriptor<IUser> = {
 		}
 	}
 };
-
-console.log('ObjectToPropertyDescriptor', data4);
 
