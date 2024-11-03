@@ -93,17 +93,7 @@ abstract class ToDoList {
     return this.notes.filter((note) => note.status === NoteStatus.PENDING).length;
   }
 
-  sortNotesByStatus(): Note[] {
-    return [...this.notes].sort((a, b) => a.status - b.status);
-  }
-
-  sortNotesByCreationDate(): Note[] {
-    return [...this.notes].sort(
-      (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
-    );
-  }
-
-  public abstract filterNotesBy(filters: NoteFilters): Note[];
+  public abstract filterOrSortNotesBy(filters: NoteFilters): Note[];
 }
 
 class ToDoListWithSearch extends ToDoList {
@@ -111,7 +101,7 @@ class ToDoListWithSearch extends ToDoList {
     super();
   }
 
-  filterNotesBy(filters: NoteFilters): Note[] {
+  filterOrSortNotesBy(filters: NoteFilters): Note[] {
     let result: Note[] = [];
     if (filters.title) result = result.concat(this.searchNotesByTitle(filters.title));
     if (filters.content) result = result.concat(this.searchNotesByContent(filters.content));
@@ -127,22 +117,25 @@ class ToDoListWithSearch extends ToDoList {
   }
 };
 
-class ToDoListWithSearchAndFilter extends ToDoListWithSearch {
+class ToDoListWithSearchAndSort extends ToDoListWithSearch {
   constructor() {
     super();
   }
 
-  filterNotesBy(filters: NoteFilters): Note[] {
-    let result = super.filterNotesBy(filters);
-    if (filters.status) result.concat(this.filterNotesByStatus(filters.status));
-    if (filters.createdAt) result.concat(this.filterNotesByCreationDate(filters.createdAt));
+  filterOrSortNotesBy(filters: NoteFilters): Note[] {
+    let result = super.filterOrSortNotesBy(filters);
+    if (filters.status) result = result.concat(this.sortNotesByStatus(filters.status));
+    if (filters.createdAt) result = result.concat(this.sortNotesByCreationDate(filters.createdAt));
     return result;
   }
 
-  filterNotesByStatus(status: number): Note[] {
-    return this.notes.filter(note => note.status === status);
+  sortNotesByStatus(status: number): Note[] {
+    return [...this.notes].sort((a, b) => a.status - b.status);
   }
-  filterNotesByCreationDate(date: Date): Note[] {
-    return this.notes.filter(note => new Date(note.createdAt).getTime() <= date.getTime());
+
+  sortNotesByCreationDate(createdAt: Date): Note[] {
+    return [...this.notes].sort(
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
+    );
   }
 };
